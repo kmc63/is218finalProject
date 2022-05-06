@@ -113,3 +113,18 @@ def edit_account():
         return redirect(url_for('auth.dashboard'))
     return render_template('manage_account.html', form=form)
 
+@auth.route('/users')
+@login_required
+@admin_required
+def browse_users():
+    data = User.query.all()
+    titles = [('email', 'Email'), ('registered_on', 'Registered On')]
+    retrieve_url = ('auth.retrieve_user', [('user_id', ':id')])
+    edit_url = ('auth.edit_user', [('user_id', ':id')])
+    add_url = url_for('auth.add_user')
+    delete_url = ('auth.delete_user', [('user_id', ':id')])
+
+    current_app.logger.info("Browse page loading")
+
+    return render_template('browse.html', titles=titles, add_url=add_url, edit_url=edit_url, delete_url=delete_url,
+                           retrieve_url=retrieve_url, data=data, User=User, record_type="Users")
