@@ -37,6 +37,11 @@ def create_app():
     app.cli.add_command(create_database)
     db.init_app(app)
 
+    api_v1_cors_config = {
+        "methods": ["OPTIONS", "GET", "POST"],
+    }
+    #CORS(app, resources={"/api/*": api_v1_cors_config})
+
     return app
 
 @login_manager.user_loader
