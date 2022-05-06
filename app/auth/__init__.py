@@ -134,3 +134,19 @@ def browse_users():
 def retrieve_user(user_id):
     user = User.query.get(user_id)
     return render_template('profile_view.html', user=user)
+
+@auth.route('/users/<int:user_id>/edit', methods=['POST', 'GET'])
+@login_required
+def edit_user(user_id):
+    user = User.query.get(user_id)
+    form = user_edit_form(obj=user)
+    if form.validate_on_submit():
+        user.about = form.about.data
+        user.is_admin = int(form.is_admin.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('User Edited Successfully', 'success')
+        current_app.logger.info("edited a user")
+        return redirect(url_for('auth.browse_users'))
+    return render_template('user_edit.html', form=form)
+
