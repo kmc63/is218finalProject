@@ -14,6 +14,8 @@ from app.db import db
 from app.db.models import User
 from app.error_handlers import error_handlers
 from app.logging_config import log_con, LOGGING_CONFIG
+from app.context_processors import utility_text_processors
+from app.transactions import transaction
 
 login_manager = flask_login.LoginManager()
 
@@ -36,7 +38,11 @@ def create_app():
     bootstrap = Bootstrap5(app)
     app.register_blueprint(simple_pages)
     app.register_blueprint(auth)
-
+    app.register_blueprint(database)
+    app.register_blueprint(log_con)
+    app.register_blueprint(error_handlers)
+    app.register_blueprint(transaction)
+    app.context_processor(utility_text_processors)
     app.cli.add_command(create_database)
     db.init_app(app)
 
