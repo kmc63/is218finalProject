@@ -128,3 +128,9 @@ def browse_users():
 
     return render_template('browse.html', titles=titles, add_url=add_url, edit_url=edit_url, delete_url=delete_url,
                            retrieve_url=retrieve_url, data=data, User=User, record_type="Users")
+
+@auth.route('/users/<int:user_id>')
+@login_required
+def retrieve_user(user_id):
+    user = User.query.get(user_id)
+    return render_template('profile_view.html', user=user)
