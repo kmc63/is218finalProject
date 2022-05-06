@@ -5,8 +5,8 @@ from jinja2 import TemplateNotFound
 from sqlalchemy import select
 from werkzeug.security import generate_password_hash
 
-#from app.auth.decorators import admin_required
-from app.auth.forms import login_form, register_form #, profile_form, security_form, user_edit_form, create_user_form
+from app.auth.decorators import admin_required
+from app.auth.forms import login_form, register_form, profile_form, security_form, user_edit_form, create_user_form
 from app.db import db
 from app.db.models import User
 #from flask_mail import Message
@@ -62,3 +62,28 @@ def login():
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
     return render_template('login.html', form=form)
+
+@auth.route("/logout")
+@login_required
+def logout():
+    """Logout the current user."""
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return redirect(url_for('auth.login'))
+
+@auth.route('/dashboard', methods=['GET'], defaults={"page": 1})
+@auth.route('/dashboard/<int:page>', methods=['GET'])
+@login_required
+def dashboard(page):
+    page = page
+    per_page = 1000
+
+    data = current_user.locations
+
+    try:
+        return render_template('dashboard.html',data=data)
+    except TemplateNotFound:
+        abort(404)
