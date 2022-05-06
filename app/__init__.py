@@ -6,6 +6,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap5
 from flask_wtf.csrf import CSRFProtect
 
+from app.auth import auth
 from app.simple_pages import simple_pages
 from app.cli import create_database
 from app.db import db
@@ -27,8 +28,11 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
+    csrf = CSRFProtect(app)
+
     bootstrap = Bootstrap5(app)
     app.register_blueprint(simple_pages)
+    app.register_blueprint(auth)
 
     app.cli.add_command(create_database)
     db.init_app(app)
