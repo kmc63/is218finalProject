@@ -40,7 +40,7 @@ def create_app():
     api_v1_cors_config = {
         "methods": ["OPTIONS", "GET", "POST"],
     }
-    CORS(app, resources={"/api/*": api_v1_cors_config})
+    #CORS(app, resources={"/api/*": api_v1_cors_config})
 
     return app
 
