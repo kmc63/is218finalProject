@@ -9,8 +9,11 @@ from flask_wtf.csrf import CSRFProtect
 from app.auth import auth
 from app.simple_pages import simple_pages
 from app.cli import create_database
+from app.db import database
 from app.db import db
 from app.db.models import User
+from app.error_handlers import error_handlers
+from app.logging_config import log_con, LOGGING_CONFIG
 
 login_manager = flask_login.LoginManager()
 
