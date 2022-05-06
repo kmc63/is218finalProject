@@ -150,3 +150,19 @@ def edit_user(user_id):
         return redirect(url_for('auth.browse_users'))
     return render_template('user_edit.html', form=form)
 
+@auth.route('/users/new', methods=['POST', 'GET'])
+@login_required
+def add_user():
+    form = create_user_form()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None:
+            user = User(email=form.email.data, password=generate_password_hash(form.password.data), is_admin=int(form.is_admin.data))
+            db.session.add(user)
+            db.session.commit()
+            flash('Congratulations, you just created a user', 'success')
+            return redirect(url_for('auth.browse_users'))
+        else:
+            flash('Already Registered')
+            return redirect(url_for('auth.browse_users'))
+    return render_template('user_new.html', form=form)
