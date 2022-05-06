@@ -166,3 +166,15 @@ def add_user():
             flash('Already Registered')
             return redirect(url_for('auth.browse_users'))
     return render_template('user_new.html', form=form)
+
+@auth.route('/users/<int:user_id>/delete', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user.id == current_user.id:
+        flash("You can't delete yourself!")
+        return redirect(url_for('auth.browse_users'), 302)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User Deleted', 'success')
+    return redirect(url_for('auth.browse_users'), 302)
