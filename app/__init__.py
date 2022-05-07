@@ -32,7 +32,7 @@ def create_app():
         app.config.from_object("app.config.DevelopmentConfig")
     elif os.environ.get("FLASK_ENV") == "testing":
         app.config.from_object("app.config.TestingConfig")
-    #app.mail = Mail / (app)
+    app.mail = Mail(app)
 
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
