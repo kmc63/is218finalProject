@@ -5,6 +5,8 @@ import flask_login
 from flask import Flask
 from flask_bootstrap import Bootstrap5
 from flask_wtf.csrf import CSRFProtect
+from flask_cors import CORS
+from flask_mail import Mail
 
 from app.auth import auth
 from app.simple_pages import simple_pages
@@ -17,6 +19,8 @@ from app.logging_config import log_con, LOGGING_CONFIG
 from app.context_processors import utility_text_processors
 from app.transactions import transaction
 
+mail = Mail()
+
 login_manager = flask_login.LoginManager()
 
 def create_app():
@@ -28,7 +32,7 @@ def create_app():
         app.config.from_object("app.config.DevelopmentConfig")
     elif os.environ.get("FLASK_ENV") == "testing":
         app.config.from_object("app.config.TestingConfig")
-    #app.mail = Mail / (app)
+    app.mail = Mail / (app)
 
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
@@ -49,7 +53,7 @@ def create_app():
     api_v1_cors_config = {
         "methods": ["OPTIONS", "GET", "POST"],
     }
-    #CORS(app, resources={"/api/*": api_v1_cors_config})
+    CORS(app, resources={"/api/*": api_v1_cors_config})
 
     return app
 
