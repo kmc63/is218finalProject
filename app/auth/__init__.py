@@ -34,7 +34,7 @@ def register():
                           recipients=[user.email])
             msg.body = "Welcome to the site"
 
-            current_app.mail.send(msg)
+            #current_app.mail.send(msg)
             flash('Congratulations, you are now a registered user!', "success")
 
             return redirect(url_for('auth.login'), 302)
@@ -81,7 +81,7 @@ def dashboard(page):
     page = page
     per_page = 1000
 
-    data = current_user.locations
+    data = current_user.transaction
 
     try:
         return render_template('dashboard.html',data=data)
