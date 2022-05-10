@@ -18,14 +18,15 @@ class transactionDB(db.Model,SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(10), nullable=True, unique=False)
     amount = db.Column(db.Integer)
+    total = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = relationship("User", back_populates="transaction", uselist=False)
 
-    def __init__(self, amount, type):
+    def __init__(self, amount, type, user_id, total):
         self.amount = amount
         self.type = type
-
-
+        self.user_id = user_id
+        self.total = total
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

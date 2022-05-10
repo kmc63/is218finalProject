@@ -21,6 +21,7 @@ def transaction_browse(page):
     per_page = 1000
     pagination = transactionDB.query.paginate(page, per_page, error_out=False)
     data = pagination.items
+
     try:
         return render_template('browse_transactions.html',data=data,pagination=pagination)
     except TemplateNotFound:
@@ -38,11 +39,13 @@ def transaction_upload():
         form.file.data.save(filepath)
         #user = current_user
         list_of_transactions = []
+        total = 0
 
         with open(filepath, encoding='utf-8-sig') as file:
             csv_file = csv.DictReader(file)
             for row in csv_file:
-                list_of_transactions.append(transactionDB(row['AMOUNT'],row['TYPE']))
+                total = total + int(row['AMOUNT'])
+                list_of_transactions.append(transactionDB(row['AMOUNT'],row['TYPE'],current_user.get_id(),total))
 
         current_user.transaction = list_of_transactions
         db.session.commit()
