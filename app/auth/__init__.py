@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash
 from app.auth.decorators import admin_required
 from app.auth.forms import login_form, register_form, profile_form, security_form, user_edit_form, create_user_form
 from app.db import db
-from app.db.models import User
+from app.db.models import User, transactionDB
 from flask_mail import Message
 
 auth = Blueprint('auth', __name__, template_folder='templates')
@@ -80,11 +80,23 @@ def logout():
 def dashboard(page):
     page = page
     per_page = 1000
-
     data = current_user.transaction
+    totalBalance = 0
+    userDebitBalance = 0
+    userCreditBalance = 0
+
+    userDebit = transactionDB.query.filter_by(user_id=current_user.get_id(), type='DEBIT')
+    for debit in userDebit:
+        userDebitBalance = userDebitBalance + int(debit.amount)
+
+    userCredit = transactionDB.query.filter_by(user_id=current_user.get_id(), type='CREDIT')
+    for credit in userCredit:
+        userCreditBalance = userCreditBalance + int(credit.amount)
+
+    totalBalance = userDebitBalance + userCreditBalance
 
     try:
-        return render_template('dashboard.html',data=data)
+        return render_template('dashboard.html',data=data, totalBalance=totalBalance)
     except TemplateNotFound:
         abort(404)
 

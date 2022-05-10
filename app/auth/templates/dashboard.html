@@ -7,6 +7,7 @@
     {% block title %}Welcome: {{ current_user.email }}{% endblock %}
     {% block content %}
         <h2>Welcome: {{ current_user.email }}</h2>
+        <h3>Current Balance: ${{ totalBalance }}</h3>
         {{ render_table(data) }}
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
