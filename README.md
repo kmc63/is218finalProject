@@ -28,7 +28,7 @@ Project Requirements
 You must
 
 7. You need at least 25 unit tests, each unit test is worth 4 points.  There must be at least one test for each thing that the user does in the app.
-* 24/25
+* 19/25
 8. You will need at least 25 commits (commit tests with their functional code in one commit)
 * 100%
 9. Have the correct badge on your readme for the development and production workflows respectively 

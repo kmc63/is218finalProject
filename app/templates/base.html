@@ -86,5 +86,8 @@
     <!-- Optional JavaScript -->
     {{ bootstrap.load_js() }}
 {% endblock %}
+<footer class="text-center mt-5">
+    Environment: {{ deployment_environment }} - Copyright: {{ year }} {{ format_price(100) }}
+</footer>
 </body>
 </html>
