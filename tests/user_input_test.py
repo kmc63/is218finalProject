@@ -16,14 +16,14 @@ def test_login_unsuccessful(application, client):
     assert not test_login.validate()
 
 def test_register_success(application, client):
-    test_register = register_form
+    test_register = register_form()
     test_register.email.data = "keith@njit.edu"
     test_register.password.data = "password"
     test_register.confirm.data = "password"
     assert test_register.validate()
 
 def test_register_unsuccessfull(application, client):
-    test_register = register_form
+    test_register = register_form()
     test_register.email.data = "keith@njit.edu"
     test_register.password.data = "password"
     test_register.confirm.data = "password1"
