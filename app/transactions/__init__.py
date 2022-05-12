@@ -37,7 +37,6 @@ def transaction_upload():
         filename = secure_filename(form.file.data.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         form.file.data.save(filepath)
-        #user = current_user
         list_of_transactions = []
         total = 0
 
@@ -49,6 +48,8 @@ def transaction_upload():
 
         current_user.transaction = list_of_transactions
         db.session.commit()
+
+        log.info(f"{len(list_of_transactions)} Transaction(s) Uploaded by current user {current_user}!")
 
         return redirect(url_for('transaction.transaction_browse'))
 

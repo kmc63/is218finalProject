@@ -40,8 +40,7 @@ class User(UserMixin, db.Model):
     active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
     is_admin = db.Column('is_admin', db.Boolean(), nullable=False, server_default='0')
 
-    transaction = db.relationship("transactionDB",
-                            secondary=transaction_user, backref="users")
+    transaction = db.relationship("transactionDB", secondary=transaction_user, backref="users")
 
     # `roles` and `groups` are reserved words that *must* be defined
     # on the `User` model to use group- or role-based authorization.
