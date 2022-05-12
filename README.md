@@ -7,7 +7,7 @@
 
 [![Development Workflow](https://github.com/kmc63/is218finalProject/actions/workflows/dev.yml/badge.svg)](https://github.com/kaw393939/docker_flask/actions/workflows/dev.yml)
 
-* [Developmental Deployment](https://is218projectfinal-dev.com/)
+* [Developmental Deployment](https://is218projectfinal-dev.herokuapp.com/)
 
 Project Requirements
 
@@ -36,4 +36,4 @@ You must
 10. You must link to your project on Heroku for dev and production respectively
 * 100%
 11. You must submit a link to your project on GitHub
-* 0%
+* 100%
