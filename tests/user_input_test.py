@@ -29,3 +29,15 @@ def test_register_unsuccessfull(application, client):
     test_register.confirm.data = "password1"
     assert not test_register.validate()
 
+def test_dashboard_success(application, client, add_user):
+    application.test_client_class = FlaskLoginClient
+    test_user = User.query.get(1)
+    with application.test_client(user=test_user) as client:
+        response = client.get('/dashboard')
+        assert response.status_code == 200
+
+def test_dashboard_unsuccessful(application, client):
+    application.test_client_class = FlaskLoginClient
+    with application.test_client(user="") as client:
+        response = client.get('/dashboard')
+        assert response.status_code == 302
